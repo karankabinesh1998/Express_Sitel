@@ -1,0 +1,2 @@
+{"message":"500 - connect ECONNREFUSED 127.0.0.1:3306 - /cmsContent/getFullFreedom/getFreedom - PUT - 127.0.0.1","level":"error"}
+{"message":"127.0.0.1 - - [11/Mar/2021:08:15:54 +0000] \"PUT /cmsContent/getFullFreedom/getFreedom HTTP/1.1\" 500 1461 \"http://localhost:3000/\" \"Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/89.0.4389.72 Safari/537.36\"\n","level":"info"}
