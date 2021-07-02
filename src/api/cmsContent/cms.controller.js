@@ -2,10 +2,51 @@ const CmsContent = require("./cms.model");
 const { endConnection } = require("../../helpers/databaseConnection");
 const chalk = require("chalk");
 var nss = require('node-suggestive-search').init();
+const fs = require("fs");
+var mv = require('mv');
 
 
 
 
+const UploadImage = async (a) =>{
+  try {
+    console.log(a,"fkhdsjkh")
+    let image = a.file;
+    console.log(image.name,"data")
+    let imagename  = image.name.split(".");
+  let sampleFile;
+  let uploadPath = "";
+
+  if (!a.files || Object.keys(a.files).length === 0) {
+   // return res.status(400).send('No files were uploaded.');
+  }
+
+  // The name of the input field (i.e. "sampleFile") is used to retrieve the uploaded file
+  sampleFile = a.file;
+  Pathcheck = __dirname + '/Images/'
+  uploadPath = __dirname + '/Images/'+imagename[0]+`_${Date.now()}`+'.'+imagename[1];
+
+  sendfile = imagename[0]+`_${Date.now()}`+'.'+imagename[1] ;
+ 
+  fs.mkdir(Pathcheck, { recursive: true }, (err) => {
+    if (err) throw err;
+  });
+
+  //console.log(uploadPath)
+  // Use the mv() method to place the file somewhere on your server
+  sampleFile.mv(uploadPath, function(err) {
+    if (err)
+      return err;
+    //res.send('File uploaded!');
+   // return uploadPath
+  });
+
+return sendfile
+   
+} catch (error) {
+   console.log(error);
+}
+}
 
 const addMaster = async (req, res, next) => {
   const tableName = req.params.tableName;
@@ -32,6 +73,18 @@ const AddDetails = async (req, res, next) => {
   const body = req.body;
   console.log(body)
   try {
+
+    const data = await UploadImage(req.files)
+
+    // console.log(data,"succeess")
+ 
+     if(data !== undefined){
+       body.icon = data;
+     }else{
+       body.icon = null;
+     }
+
+     console.log(body);
     const result = await CmsContent.addMaster(`tbl_details`,body);
     if(result){
       res.send(result);
@@ -752,7 +805,8 @@ module.exports = {
  SearchList,
  SelectedSearchList,
  DownloadImage,
- GetTranscript
+ GetTranscript,
+ UploadImage
 
   
 };
