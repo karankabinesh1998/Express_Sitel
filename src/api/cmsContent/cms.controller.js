@@ -233,6 +233,24 @@ const GetLocation = async (req, res, next) => {
   }
 };
 
+
+const GetTranscript = async (req, res, next) => {
+  try {
+    const result = await CmsContent.getFreedom(`*`,`tbl_audio_or_video`,1,1,1);
+    if(result){
+      res.send(result);
+    }
+    endConnection();
+    
+  } catch (error) {
+    //db end connection
+    endConnection();
+    console.error(chalk.red(error));
+    res.status(500);
+    next(error);
+  }
+};
+
 const GetDetails = async (req, res, next) => {
   try {
     // let Final_data = []
@@ -690,6 +708,26 @@ const deleteMaster = async (req, res, next) => {
   }
 };
 
+const DownloadImage = async(req,res,next)=>{
+  let body = req.params.filename;
+
+  try{
+
+
+ let  uploadPath = __dirname + '/Video/'+`${body}`;
+
+
+console.log(uploadPath)
+res.sendFile(uploadPath)
+
+}catch(error){
+  console.error(chalk.red(error));
+  res.status(500);
+  next(error);
+}
+
+}
+
 
 module.exports = {
   deleteMaster,
@@ -712,7 +750,9 @@ module.exports = {
  GetDetails,
  deleteDeatils,
  SearchList,
- SelectedSearchList
+ SelectedSearchList,
+ DownloadImage,
+ GetTranscript
 
   
 };

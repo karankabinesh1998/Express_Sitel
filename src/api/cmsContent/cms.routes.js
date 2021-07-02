@@ -106,6 +106,13 @@ router
 .route("/searchselectdata")
 .post(corsOptionsDelegate,cmsContent.SelectedSearchList);
 
+router
+ .route('/filename/:filename?')
+ .get(cmsContent.DownloadImage)
+
+ router
+ .route(`/getaudioorvideo`)
+ .get(cmsContent.GetTranscript)
 
 
 router
